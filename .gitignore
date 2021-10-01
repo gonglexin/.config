@@ -1,0 +1,11 @@
+.DS_Store
+htop
+iterm2
+clash
+fish/conf.d/
+fish/completions/
+fish/fish_variables
+fish/functions/
+nvim/plugin/
+nvim/init.vim.bak
+tags
