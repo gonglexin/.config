@@ -21,6 +21,8 @@ require('packer').startup(function()
 
   -- use 'tpope/vim-sensible'
   -- use 'wakatime/vim-wakatime' 
+  use 'mhinz/vim-startify'
+
   use 'editorconfig/editorconfig-vim'
   use 'tpope/vim-surround'
   use { 'windwp/nvim-autopairs', config = function() require'nvim-autopairs'.setup {} end }
@@ -65,10 +67,15 @@ require('packer').startup(function()
         options = {
           theme = 'material',
         },
-        extensions = { 'quickfix', 'nvim-tree', 'fugitive' }
+        extensions = { 'quickfix', 'nvim-tree' }
       }
     end
   }
+
+  -- use {
+  --   'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons',
+  --   config = function() require'bufferline'.setup {} end
+  -- }
 
   -- Add indentation guides even on blank lines
   use {
