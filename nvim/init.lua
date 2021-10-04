@@ -25,7 +25,6 @@ require('packer').startup(function()
   use 'tpope/vim-surround'
   use { 'windwp/nvim-autopairs', config = function() require'nvim-autopairs'.setup {} end }
 
-  use 'tpope/vim-fugitive' -- Git commands in nvim
   use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
   use 'tpope/vim-sleuth' -- Auto ident style
   use 'ludovicchabant/vim-gutentags' -- Automatic tags management
@@ -57,7 +56,19 @@ require('packer').startup(function()
   use 'arcticicestudio/nord-vim'
   use 'projekt0n/github-nvim-theme'
 
-  use 'itchyny/lightline.vim' -- Fancier statusline
+  use {
+    -- 'hoob3rt/lualine.nvim',
+    'shadmansaleh/lualine.nvim', -- Use fork version right now
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function()
+      require'lualine'.setup {
+        options = {
+          theme = 'material',
+        },
+        extensions = { 'quickfix', 'nvim-tree', 'fugitive' }
+      }
+    end
+  }
 
   -- Add indentation guides even on blank lines
   use {
@@ -135,20 +146,12 @@ vim.opt.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- vim.o.softtabstop = 2
--- vim.o.shiftwidth = 2
+-- GUI font
+vim.o.guifont = 'FiraCode Nerd Font:h18'
 
 --Decrease update time
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
-
---Set statusbar
-vim.g.lightline = {
-  colorscheme = 'wombat',
-  active = { left = { { 'mode', 'paste' }, { 'gitbranch', 'readonly', 'filename', 'modified' } } },
-  component_function = { gitbranch = 'fugitive#head' },
-}
-
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
