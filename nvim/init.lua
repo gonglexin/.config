@@ -20,7 +20,7 @@ require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   -- use 'tpope/vim-sensible'
-  -- use 'wakatime/vim-wakatime' 
+  -- use 'wakatime/vim-wakatime'
   use 'mhinz/vim-startify'
 
   use 'editorconfig/editorconfig-vim'
@@ -58,19 +58,7 @@ require('packer').startup(function()
   use 'arcticicestudio/nord-vim'
   use 'projekt0n/github-nvim-theme'
 
-  use {
-    -- 'hoob3rt/lualine.nvim',
-    'shadmansaleh/lualine.nvim', -- Use fork version right now
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-    config = function()
-      require'lualine'.setup {
-        options = {
-          theme = 'material',
-        },
-        extensions = { 'quickfix', 'nvim-tree' }
-      }
-    end
-  }
+  use { 'famiu/feline.nvim', config = function() require'feline'.setup {} end }
 
   -- use {
   --   'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons',
@@ -121,12 +109,20 @@ require('packer').startup(function()
 
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
   use 'williamboman/nvim-lsp-installer'
+  use 'onsails/lspkind-nvim'
+  use 'kosayoda/nvim-lightbulb'
+  use { 'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu' }
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'ray-x/cmp-treesitter'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
   use 'rafamadriz/friendly-snippets' -- Snippets
 end)
+
+vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
 
 --Incremental live completion (note: this is now a default on master)
 vim.o.inccommand = 'nosplit'
@@ -290,11 +286,10 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- LSP settings
-local nvim_lsp = require 'lspconfig'
 local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  local opts = { noremap = true, silent = true }
+  -- local opts = { noremap = true, silent = true }
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
@@ -306,7 +301,8 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>:CodeActionMenu<CR>', opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
@@ -318,17 +314,32 @@ end
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.preselectSupport = true
+capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  },
+}
+
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 local lsp_installer = require("nvim-lsp-installer")
 
 lsp_installer.on_server_ready(function(server)
-    local opts = {
+    local options = {
       on_attach = on_attach,
       capabilities = capabilities,
     }
-    server:setup(opts)
+    server:setup(options)
     vim.cmd [[ do User LspAttachBuffers ]]
 end)
 
@@ -340,6 +351,7 @@ local luasnip = require 'luasnip'
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
+local lspkind = require'lspkind'
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -379,6 +391,24 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'buffer' },
+    { name = 'treesitter' },
+    { name = 'path' },
+  },
+  formatting = {
+    format = function (entry, vim_item)
+      vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
+
+      -- set a name for each source
+      -- vim_item.menu = ({
+      --   buffer = "[Buffer]",
+      --   nvim_lsp = "[LSP]",
+      --   luasnip = "[LuaSnip]",
+      --   nvim_lua = "[Lua]",
+      --   latex_symbols = "[Latex]",
+      -- })[entry.source.name]
+      return vim_item
+    end,
   },
 }
 
@@ -393,6 +423,18 @@ require("nvim-autopairs.completion.cmp").setup({
     tex = '{'
   }
 })
+
+-- local function preview_location_callback(_, result)
+--   if result == nil or vim.tbl_isempty(result) then
+--     return nil
+--   end
+--   vim.lsp.util.preview_location(result[1])
+-- end
+
+-- function PeekDefinition()
+--   local params = vim.lsp.util.make_position_params()
+--   return vim.lsp.buf_request(0, 'textDocument/definition', params, preview_location_callback)
+-- end
 
 --Set colorscheme (order is important here)
 -- vim.o.termguicolors = true
