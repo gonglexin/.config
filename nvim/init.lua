@@ -23,13 +23,14 @@ require('packer').startup(function()
   -- use 'wakatime/vim-wakatime'
   use 'mhinz/vim-startify'
 
-  use 'editorconfig/editorconfig-vim'
+  use 'ggandor/lightspeed.nvim'
   use 'tpope/vim-surround'
+  use 'editorconfig/editorconfig-vim'
   use { 'windwp/nvim-autopairs', config = function() require'nvim-autopairs'.setup {} end }
-
   use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
   use 'tpope/vim-sleuth' -- Auto ident style
   use 'ludovicchabant/vim-gutentags' -- Automatic tags management
+
   -- UI to select things (files, grep results, open buffers...)
   use 'nvim-telescope/telescope-project.nvim'
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
@@ -43,7 +44,6 @@ require('packer').startup(function()
       require'telescope'.load_extension('project')
     end
   }
-
   use {
     'kyazdani42/nvim-tree.lua',
     requires = 'kyazdani42/nvim-web-devicons',
@@ -58,6 +58,7 @@ require('packer').startup(function()
   use 'arcticicestudio/nord-vim'
   use 'projekt0n/github-nvim-theme'
 
+  -- use 'nvim-lua/lsp-status.nvim' -- TODO: config it with feline
   use { 'famiu/feline.nvim', config = function() require'feline'.setup {} end }
 
   -- use {
@@ -106,6 +107,7 @@ require('packer').startup(function()
   use 'nvim-treesitter/nvim-treesitter-textobjects'
 
   -- use { 'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview' }
+  use {"ellisonleao/glow.nvim"}
 
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
   use 'williamboman/nvim-lsp-installer'
@@ -120,6 +122,24 @@ require('packer').startup(function()
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
   use 'rafamadriz/friendly-snippets' -- Snippets
+
+  use {
+    'akinsho/toggleterm.nvim',
+    config = function()
+      require'toggleterm'.setup {
+        open_mapping = [[<c-\>]],
+      }
+    end
+  }
+  use "numtostr/FTerm.nvim"
+
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function() require("todo-comments").setup {} end
+  }
+
+  use { 'norcalli/nvim-colorizer.lua', config = function() require'colorizer'.setup {} end }
 end)
 
 vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
@@ -149,6 +169,8 @@ vim.opt.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+vim.o.termguicolors = true
+
 -- GUI font
 vim.o.guifont = 'FiraCode Nerd Font:h18'
 
@@ -156,14 +178,17 @@ vim.o.guifont = 'FiraCode Nerd Font:h18'
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
 --Remap space as leader key
-vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
+map('', '<Space>', '<Nop>', opts)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 --Remap for dealing with word wrap
-vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
-vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
+map('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
+map('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
 
 -- Highlight on yank
 vim.api.nvim_exec(
@@ -177,18 +202,18 @@ vim.api.nvim_exec(
 )
 
 -- Y yank until the end of line  (note: this is now a default on master)
-vim.api.nvim_set_keymap('n', 'Y', 'y$', { noremap = true })
+map('n', 'Y', 'y$', { noremap = true })
 
-vim.api.nvim_set_keymap('n', '<leader>e', [[<cmd> :e $MYVIMRC<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>sv', [[<cmd> :source $MYVIMRC<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>`', [[<cmd> :terminal<CR>]], { noremap = true, silent = true })
+map('n', '<leader>e', [[<cmd> :e $MYVIMRC<CR>]], opts)
+map('n', '<leader>sv', [[<cmd> :source $MYVIMRC<CR>]], opts)
+map('n', '<leader>`', [[<cmd> :terminal<CR>]], opts)
 
 -- Neogit
-vim.api.nvim_set_keymap('n', '<leader>gg', [[<cmd>lua require('neogit').open()<CR>]], { noremap = true, silent = true })
+map('n', '<leader>gg', [[<cmd>lua require('neogit').open()<CR>]], opts)
 
 -- NvimTree
 -- vim.g.nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] -- empty by default
-vim.api.nvim_set_keymap('n', '<leader>n', [[<cmd> :NvimTreeToggle<CR>]], { noremap = true, silent = true })
+map('n', '<leader>n', [[<cmd> :NvimTreeToggle<CR>]], opts)
 
 -- Telescope
 local actions = require('telescope.actions')
@@ -217,19 +242,18 @@ require('telescope').setup {
 }
 
 --Add leader shortcuts
-local opts = { noremap = true, silent = true }
-vim.api.nvim_set_keymap('n', '<leader>bb', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], opts)
-vim.api.nvim_set_keymap('n', '<leader>sf', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], opts)
-vim.api.nvim_set_keymap('n', '<leader>sb', [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], opts)
-vim.api.nvim_set_keymap('n', '<leader>sh', [[<cmd>lua require('telescope.builtin').help_tags()<CR>]], opts)
-vim.api.nvim_set_keymap('n', '<leader>st', [[<cmd>lua require('telescope.builtin').tags()<CR>]], opts)
-vim.api.nvim_set_keymap('n', '<leader>sd', [[<cmd>lua require('telescope.builtin').grep_string()<CR>]], opts)
-vim.api.nvim_set_keymap('n', '<leader>sp', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], opts)
-vim.api.nvim_set_keymap('n', '<leader>so', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]], opts)
-vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], opts)
-vim.api.nvim_set_keymap('n', '<leader><leader>', "<cmd>lua require'telescope'.extensions.frecency.frecency()<CR>", opts)
-vim.api.nvim_set_keymap('n', '<leader>pp', ":lua require'telescope'.extensions.project.project{}<CR>", opts)
-vim.api.nvim_set_keymap('n', '<leader>pf', "<cmd>lua require'telescope-config'.project_files()<CR>", opts)
+map('n', '<leader>bb', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], opts)
+map('n', '<leader>sf', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], opts)
+map('n', '<leader>sb', [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], opts)
+map('n', '<leader>sh', [[<cmd>lua require('telescope.builtin').help_tags()<CR>]], opts)
+map('n', '<leader>st', [[<cmd>lua require('telescope.builtin').tags()<CR>]], opts)
+map('n', '<leader>sd', [[<cmd>lua require('telescope.builtin').grep_string()<CR>]], opts)
+map('n', '<leader>sp', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], opts)
+map('n', '<leader>so', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]], opts)
+map('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], opts)
+map('n', '<leader><leader>', "<cmd>lua require'telescope'.extensions.frecency.frecency()<CR>", opts)
+map('n', '<leader>pp', ":lua require'telescope'.extensions.project.project{}<CR>", opts)
+map('n', '<leader>pf', "<cmd>lua require'telescope-config'.project_files()<CR>", opts)
 
 
 -- Treesitter configuration
@@ -290,25 +314,26 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>:CodeActionMenu<CR>', opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
+  local buf_map = vim.api.nvim_buf_set_keymap
+  buf_map(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_map(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_map(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_map(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_map(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_map(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_map(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_map(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_map(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_map(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_map(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_map(bufnr, 'n', '<leader>ca', '<cmd>:CodeActionMenu<CR>', opts)
+  -- buf_map(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  -- buf_map(bufnr, 'v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
+  buf_map(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_map(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_map(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_map(bufnr, 'n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_map(bufnr, 'n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
@@ -436,13 +461,9 @@ require("nvim-autopairs.completion.cmp").setup({
 --   return vim.lsp.buf_request(0, 'textDocument/definition', params, preview_location_callback)
 -- end
 
---Set colorscheme (order is important here)
--- vim.o.termguicolors = true
--- vim.g.onedark_terminal_italics = 2
--- vim.cmd [[colorscheme onedark]]
 -- material theme
 vim.cmd[[colorscheme material]]
-vim.api.nvim_set_keymap('n', '<leader>mm', [[<cmd>lua require('material.functions').toggle_style()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>me', [[<cmd>lua require('material.functions').toggle_eob()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>ml', [[<cmd>lua require('material.functions').change_style('lighter')<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>md', [[<cmd>lua require('material.functions').change_style('darker')<CR>]], { noremap = true, silent = true })
+map('n', '<leader>mm', [[<cmd>lua require('material.functions').toggle_style()<CR>]], opts)
+map('n', '<leader>me', [[<cmd>lua require('material.functions').toggle_eob()<CR>]], opts)
+map('n', '<leader>ml', [[<cmd>lua require('material.functions').change_style('lighter')<CR>]], opts)
+map('n', '<leader>md', [[<cmd>lua require('material.functions').change_style('darker')<CR>]], opts)
