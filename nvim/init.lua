@@ -9,215 +9,16 @@ vim.api.nvim_exec(
   [[
   augroup Packer
     autocmd!
-    autocmd BufWritePost init.lua PackerCompile
+    autocmd BufWritePost plugins.lua PackerCompile
   augroup end
 ]],
   false
 )
 
-local use = require('packer').use
-require('packer').startup(function()
-  use 'wbthomason/packer.nvim'
+require 'plugins'
+require 'options'
+require 'keymap'
 
-  -- use 'tpope/vim-sensible'
-  -- use 'wakatime/vim-wakatime'
-  use 'mhinz/vim-startify'
-
-  use 'ggandor/lightspeed.nvim'
-  use 'tpope/vim-surround'
-  use 'editorconfig/editorconfig-vim'
-  use { 'windwp/nvim-autopairs', config = function() require'nvim-autopairs'.setup {} end }
-  use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
-  use 'tpope/vim-sleuth' -- Auto ident style
-  use 'ludovicchabant/vim-gutentags' -- Automatic tags management
-
-  -- UI to select things (files, grep results, open buffers...)
-  use 'nvim-telescope/telescope-project.nvim'
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  use { 'nvim-telescope/telescope-frecency.nvim', requires = { 'tami5/sqlite.lua' } }
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      require'telescope'.load_extension('frecency')
-      require'telescope'.load_extension('fzf')
-      require'telescope'.load_extension('project')
-    end
-  }
-  use {
-    'kyazdani42/nvim-tree.lua',
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = function() require'nvim-tree'.setup {} end
-  }
-
-  use { 'folke/which-key.nvim', config = function() require'which-key'.setup {} end }
-
-  use 'marko-cerovac/material.nvim'
-  use 'joshdick/onedark.vim' -- Theme inspired by Atom
-  use 'NLKNguyen/papercolor-theme'
-  use 'arcticicestudio/nord-vim'
-  use 'projekt0n/github-nvim-theme'
-
-  -- use 'nvim-lua/lsp-status.nvim' -- TODO: config it with feline
-  use { 'famiu/feline.nvim', config = function() require'feline'.setup {} end }
-
-  -- use {
-  --   'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons',
-  --   config = function() require'bufferline'.setup {} end
-  -- }
-
-  -- Add indentation guides even on blank lines
-  use {
-    'lukas-reineke/indent-blankline.nvim',
-    config = function()
-      require'indent_blankline'.setup {
-        char = '┊', -- default is '|'
-        filetype_exclude = { 'help', 'packer' },
-        buftype_exclude = { 'terminal', 'nofile' },
-        show_trailing_blankline_indent = false,
-      }
-   end
-  }
-
-  -- Add git related info in the signs columns and popups
-  use {
-    'lewis6991/gitsigns.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      require'gitsigns'.setup {
-        signs = {
-          add = { hl = 'GitGutterAdd', text = '+' },
-          change = { hl = 'GitGutterChange', text = '~' },
-          delete = { hl = 'GitGutterDelete', text = '_' },
-          topdelete = { hl = 'GitGutterDelete', text = '‾' },
-          changedelete = { hl = 'GitGutterChange', text = '~' },
-        },
-      }
-    end
-  }
-
-  use {
-    'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim',
-    config = function() require'neogit'.setup {} end
-  }
-
-  -- Highlight, edit, and navigate code using a fast incremental parsing library
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-  -- Additional textobjects for treesitter
-  use 'nvim-treesitter/nvim-treesitter-textobjects'
-
-  -- use { 'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview' }
-  use {"ellisonleao/glow.nvim"}
-
-  use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
-  use 'williamboman/nvim-lsp-installer'
-  use 'onsails/lspkind-nvim'
-  use 'kosayoda/nvim-lightbulb'
-  use {
-    "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
-    config = function() require("trouble").setup {} end
-  }
-  use { 'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu' }
-  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'ray-x/cmp-treesitter'
-  use 'saadparwaiz1/cmp_luasnip'
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
-  use 'rafamadriz/friendly-snippets' -- Snippets
-
-  use {
-    'akinsho/toggleterm.nvim',
-    config = function()
-      require'toggleterm'.setup {
-        open_mapping = [[<c-\>]],
-      }
-    end
-  }
-  use "numtostr/FTerm.nvim"
-
-  use {
-    "folke/todo-comments.nvim",
-    requires = "nvim-lua/plenary.nvim",
-    config = function() require("todo-comments").setup {} end
-  }
-
-  use { 'norcalli/nvim-colorizer.lua', config = function() require'colorizer'.setup {} end }
-end)
-
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-
---Incremental live completion (note: this is now a default on master)
-vim.o.inccommand = 'nosplit'
-
---Set highlight on search
--- vim.o.hlsearch = false
-
---Make line numbers default
-vim.wo.number = true
-
---Do not save when switching buffers (note: this is now a default on master)
-vim.o.hidden = true
-
---Enable mouse mode
-vim.o.mouse = 'a'
-
---Enable break indent
-vim.o.breakindent = true
-
---Save undo history
-vim.opt.undofile = true
-
---Case insensitive searching UNLESS /C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
-vim.o.termguicolors = true
-
--- GUI font
-vim.o.guifont = 'FiraCode Nerd Font:h18'
-
---Decrease update time
-vim.o.updatetime = 250
-vim.wo.signcolumn = 'yes'
-
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
-
---Remap space as leader key
-map('', '<Space>', '<Nop>', opts)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
---Remap for dealing with word wrap
-map('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
-map('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
-
--- Highlight on yank
-vim.api.nvim_exec(
-  [[
-  augroup YankHighlight
-    autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
-  augroup end
-]],
-  false
-)
-
--- Y yank until the end of line  (note: this is now a default on master)
-map('n', 'Y', 'y$', { noremap = true })
-
--- map('n', '<leader>e', [[<cmd> :e $MYVIMRC<CR>]], opts)
--- map('n', '<leader>sv', [[<cmd> :source $MYVIMRC<CR>]], opts)
-
--- Neogit
-map('n', '<leader>gg', [[<cmd>lua require('neogit').open()<CR>]], opts)
-
--- NvimTree
--- vim.g.nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] -- empty by default
-map('n', '<leader>n', [[<cmd> :NvimTreeToggle<CR>]], opts)
 
 -- Telescope
 local actions = require('telescope.actions')
@@ -244,21 +45,6 @@ require('telescope').setup {
     }
   }
 }
-
---Add leader shortcuts
-map('n', '<leader>bb', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], opts)
-map('n', '<leader>sf', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], opts)
-map('n', '<leader>sb', [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], opts)
-map('n', '<leader>sh', [[<cmd>lua require('telescope.builtin').help_tags()<CR>]], opts)
-map('n', '<leader>st', [[<cmd>lua require('telescope.builtin').tags()<CR>]], opts)
-map('n', '<leader>sd', [[<cmd>lua require('telescope.builtin').grep_string()<CR>]], opts)
-map('n', '<leader>sp', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], opts)
-map('n', '<leader>so', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]], opts)
-map('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], opts)
-map('n', '<leader><leader>', "<cmd>lua require'telescope'.extensions.frecency.frecency()<CR>", opts)
-map('n', '<leader>pp', ":lua require'telescope'.extensions.project.project{}<CR>", opts)
-map('n', '<leader>pf', "<cmd>lua require'telescope-config'.project_files()<CR>", opts)
-
 
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
@@ -372,9 +158,6 @@ lsp_installer.on_server_ready(function(server)
     vim.cmd [[ do User LspAttachBuffers ]]
 end)
 
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
-
 -- luasnip setup
 local luasnip = require 'luasnip'
 
@@ -429,13 +212,13 @@ cmp.setup {
       vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
 
       -- set a name for each source
-      -- vim_item.menu = ({
-      --   buffer = "[Buffer]",
-      --   nvim_lsp = "[LSP]",
-      --   luasnip = "[LuaSnip]",
-      --   nvim_lua = "[Lua]",
-      --   latex_symbols = "[Latex]",
-      -- })[entry.source.name]
+      vim_item.menu = ({
+        buffer = "[Buffer]",
+        nvim_lsp = "[LSP]",
+        luasnip = "[LuaSnip]",
+        nvim_lua = "[Lua]",
+        latex_symbols = "[Latex]",
+      })[entry.source.name]
       return vim_item
     end,
   },
@@ -464,10 +247,3 @@ require("nvim-autopairs.completion.cmp").setup({
 --   local params = vim.lsp.util.make_position_params()
 --   return vim.lsp.buf_request(0, 'textDocument/definition', params, preview_location_callback)
 -- end
-
--- material theme
-vim.cmd[[colorscheme material]]
-map('n', '<leader>mm', [[<cmd>lua require('material.functions').toggle_style()<CR>]], opts)
-map('n', '<leader>me', [[<cmd>lua require('material.functions').toggle_eob()<CR>]], opts)
-map('n', '<leader>ml', [[<cmd>lua require('material.functions').change_style('lighter')<CR>]], opts)
-map('n', '<leader>md', [[<cmd>lua require('material.functions').change_style('darker')<CR>]], opts)
