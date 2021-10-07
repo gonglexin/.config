@@ -113,6 +113,11 @@ require('packer').startup(function()
   use 'williamboman/nvim-lsp-installer'
   use 'onsails/lspkind-nvim'
   use 'kosayoda/nvim-lightbulb'
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function() require("trouble").setup {} end
+  }
   use { 'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu' }
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   use 'hrsh7th/cmp-nvim-lsp'
@@ -204,9 +209,8 @@ vim.api.nvim_exec(
 -- Y yank until the end of line  (note: this is now a default on master)
 map('n', 'Y', 'y$', { noremap = true })
 
-map('n', '<leader>e', [[<cmd> :e $MYVIMRC<CR>]], opts)
-map('n', '<leader>sv', [[<cmd> :source $MYVIMRC<CR>]], opts)
-map('n', '<leader>`', [[<cmd> :terminal<CR>]], opts)
+-- map('n', '<leader>e', [[<cmd> :e $MYVIMRC<CR>]], opts)
+-- map('n', '<leader>sv', [[<cmd> :source $MYVIMRC<CR>]], opts)
 
 -- Neogit
 map('n', '<leader>gg', [[<cmd>lua require('neogit').open()<CR>]], opts)
