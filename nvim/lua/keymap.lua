@@ -31,7 +31,7 @@ map('n', '<leader>so', [[<cmd>lua require('telescope.builtin').tags{ only_curren
 map('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], opts)
 map('n', '<leader><leader>', "<cmd>lua require'telescope'.extensions.frecency.frecency()<CR>", opts)
 map('n', '<leader>pp', ":lua require'telescope'.extensions.project.project{}<CR>", opts)
-map('n', '<leader>pf', "<cmd>lua require'telescope-config'.project_files()<CR>", opts)
+map('n', '<leader>pf', "<cmd>lua require'settings.explorer'.project_files()<CR>", opts)
 
 -- NvimTree
 map('n', '<leader>pn', [[<cmd> :NvimTreeToggle<CR>]], opts)
