@@ -30,7 +30,7 @@ map('n', '<leader>sp', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]]
 map('n', '<leader>so', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]], opts)
 map('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], opts)
 map('n', '<leader><leader>', "<cmd>lua require'telescope'.extensions.frecency.frecency()<CR>", opts)
-map('n', '<leader>pp', ":lua require'telescope'.extensions.project.project{}<CR>", opts)
+map('n', '<leader>pp', "<cmd>lua require'telescope'.extensions.project.project{}<CR>", opts)
 map('n', '<leader>pf', "<cmd>lua require'settings.explorer'.project_files()<CR>", opts)
 
 -- NvimTree

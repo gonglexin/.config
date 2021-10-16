@@ -17,6 +17,14 @@ require('nvim-treesitter.configs').setup {
     enable = true,
   },
   textobjects = {
+    lsp_interop = {
+      enable = true,
+      border = 'none',
+      peek_definition_code = {
+        ["<leader>df"] = "@function.outer",
+        ["<leader>dF"] = "@class.outer",
+      },
+    },
     select = {
       enable = true,
       lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
@@ -109,6 +117,12 @@ lsp_installer.on_server_ready(function(server)
     server:setup(options)
     vim.cmd [[ do User LspAttachBuffers ]]
 end)
+
+local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
+for type, icon in pairs(signs) do
+  local hl = "LspDiagnosticsSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
 
 -- local function preview_location_callback(_, result)
 --   if result == nil or vim.tbl_isempty(result) then

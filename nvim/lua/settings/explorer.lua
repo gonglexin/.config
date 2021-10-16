@@ -1,5 +1,5 @@
 local actions = require('telescope.actions')
-require('telescope').setup {
+local opts = {
   defaults = {
     mappings = {
       i = {
@@ -7,11 +7,11 @@ require('telescope').setup {
       },
     },
   },
-  -- pickers = {
-  --   find_files = {
-  --     theme = "dropdown",
-  --   }
-  -- },
+  pickers = {
+    find_files = {
+      theme = "dropdown",
+    }
+  },
   extensions = {
     fzf = {
       fuzzy = true,                    -- false will only do exact matching
@@ -22,11 +22,11 @@ require('telescope').setup {
     }
   }
 }
+require('telescope').setup(opts)
 
 local M = {}
 
 M.project_files = function()
-  local opts = {} -- define here if you want to define something
   local ok = pcall(require'telescope.builtin'.git_files, opts)
   if not ok then require'telescope.builtin'.find_files(opts) end
 end

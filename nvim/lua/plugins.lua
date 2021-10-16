@@ -83,11 +83,11 @@ require('packer').startup(function()
     'famiu/feline.nvim',
     config = function() require'feline'.setup {} end
   }
-  -- use {
-  --   'akinsho/bufferline.nvim',
-  --   requires = 'kyazdani42/nvim-web-devicons',
-  --   config = function() require'bufferline'.setup {} end
-  -- }
+  use {
+    'akinsho/bufferline.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function() require'bufferline'.setup {} end
+  }
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
@@ -143,5 +143,4 @@ require('packer').startup(function()
   -- misc
   -- use 'tpope/vim-sensible'
   use 'wakatime/vim-wakatime'
-  use 'mhinz/vim-startify'
 end)
