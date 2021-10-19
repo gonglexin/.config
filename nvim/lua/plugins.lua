@@ -10,6 +10,10 @@ require('packer').startup(function()
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
+  -- use {
+  --   'glepnir/lspsaga.nvim',
+  --   config = function() require'lspsaga'.init_lsp_saga() end
+  -- }
   use 'onsails/lspkind-nvim'
   use 'kosayoda/nvim-lightbulb'
   use {
@@ -42,7 +46,11 @@ require('packer').startup(function()
   use 'ggandor/lightspeed.nvim'
   use 'tpope/vim-surround'
   use 'editorconfig/editorconfig-vim'
-  use 'tpope/vim-commentary'
+  -- use 'tpope/vim-commentary'
+  use {
+    'numToStr/Comment.nvim',
+    config = function() require('Comment').setup() end
+  }
   use 'tpope/vim-sleuth'
   -- use 'ludovicchabant/vim-gutentags' -- Automatic tags management
   use {
@@ -131,7 +139,7 @@ require('packer').startup(function()
       }
     end
   }
-  use 'numtostr/FTerm.nvim'
+  use 'numToStr/FTerm.nvim'
 
   -- colorscheme
   use 'marko-cerovac/material.nvim'
