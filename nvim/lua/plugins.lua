@@ -15,7 +15,7 @@ require('packer').startup(function()
   --   config = function() require'lspsaga'.init_lsp_saga() end
   -- }
   use 'onsails/lspkind-nvim'
-  use 'kosayoda/nvim-lightbulb'
+  -- use 'kosayoda/nvim-lightbulb'
   use {
     'folke/trouble.nvim',
     requires = 'kyazdani42/nvim-web-devicons',
@@ -25,11 +25,17 @@ require('packer').startup(function()
   -- use 'nvim-lua/lsp-status.nvim' -- TODO: config it with feline
 
   -- completion
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-nvim-lsp'
+  use 'github/copilot.vim'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
-  use 'ray-x/cmp-treesitter'
+  use 'hrsh7th/cmp-cmdline'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'hrsh7th/nvim-cmp'
+
+  -- use 'ray-x/cmp-treesitter'
+  use 'hrsh7th/cmp-vsnip'
+  use 'hrsh7th/vim-vsnip'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip'
   use 'rafamadriz/friendly-snippets'
@@ -67,7 +73,11 @@ require('packer').startup(function()
   use {
     'kyazdani42/nvim-tree.lua',
     requires = 'kyazdani42/nvim-web-devicons',
-    config = function() require'nvim-tree'.setup {} end
+    config = function()
+      require'nvim-tree'.setup {
+        ignore_ft_on_setup = { '.git', 'node_modules', '.cache', '.DS_Store', '.keep' }
+      }
+    end
   }
   use 'nvim-telescope/telescope-project.nvim'
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }

@@ -46,10 +46,7 @@ vim.api.nvim_exec(
 )
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
-
--- NvimTree
-vim.g.nvim_tree_ignore = { '.git', 'node_modules', '.cache', '.DS_Store', '.keep' }
+vim.o.completeopt = 'menu,menuone,noselect'
 
 -- material theme
 vim.cmd[[colorscheme material]]

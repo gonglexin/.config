@@ -17,14 +17,14 @@ require('nvim-treesitter.configs').setup {
     enable = true,
   },
   textobjects = {
-    lsp_interop = {
-      enable = true,
-      border = 'none',
-      peek_definition_code = {
-        ["<leader>df"] = "@function.outer",
-        ["<leader>dF"] = "@class.outer",
-      },
-    },
+    -- lsp_interop = {
+    --   enable = true,
+    --   border = 'none',
+    --   peek_definition_code = {
+    --     ["<leader>df"] = "@function.outer",
+    --     ["<leader>dF"] = "@class.outer",
+    --   },
+    -- },
     select = {
       enable = true,
       lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
@@ -79,8 +79,8 @@ local on_attach = function(_, bufnr)
   buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<leader>ca', '<cmd>:CodeActionMenu<CR>', opts)
-  -- buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  -- buf_set_keymap('n', '<leader>ca', '<cmd>:CodeActionMenu<CR>', opts)
+  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   -- buf_set_keymap('v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
   buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
@@ -93,39 +93,56 @@ end
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
-capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.preselectSupport = true
-capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  },
-}
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local lsp_installer = require("nvim-lsp-installer")
 
 lsp_installer.on_server_ready(function(server)
-    local options = {
-      on_attach = on_attach,
-      capabilities = capabilities,
-    }
-    server:setup(options)
-    vim.cmd [[ do User LspAttachBuffers ]]
+  local options = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+
+  -- if server.name == 'elixirls' then
+  --   options.cmd = { "/Users/gonglexin/projects/elixir-ls/release/language_server.sh" };
+  -- end
+
+  server:setup(options)
+  vim.cmd [[ do User LspAttachBuffers ]]
 end)
 
-local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
-for type, icon in pairs(signs) do
-  local hl = "LspDiagnosticsSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
+-- local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
+-- for type, icon in pairs(signs) do
+--   local hl = "LspDiagnosticsSign" .. type
+--   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+-- end
+
+-- function PrintDiagnostics(opts, bufnr, line_nr, client_id)
+--   opts = opts or {}
+--
+--   bufnr = bufnr or 0
+--   line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
+--
+--   local line_diagnostics = vim.lsp.diagnostic.get_line_diagnostics(bufnr, line_nr, opts, client_id)
+--   if vim.tbl_isempty(line_diagnostics) then return end
+--
+--   local diagnostic_message = ""
+--   for i, diagnostic in ipairs(line_diagnostics) do
+--     diagnostic_message = diagnostic_message .. string.format("%d: %s", i, diagnostic.message or "")
+--     print(diagnostic_message)
+--     if i ~= #line_diagnostics then
+--       diagnostic_message = diagnostic_message .. "\n"
+--     end
+--   end
+--   vim.api.nvim_echo({{diagnostic_message, "Normal"}}, false, {})
+-- end
+--
+-- vim.cmd [[ autocmd CursorHold * lua PrintDiagnostics() ]]
+
+-- You will likely want to reduce updatetime which affects CursorHold
+-- note: this setting is global and should be set only once
+vim.o.updatetime = 250
+vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})]]
 
 -- local function preview_location_callback(_, result)
 --   if result == nil or vim.tbl_isempty(result) then
