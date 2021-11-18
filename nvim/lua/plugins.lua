@@ -15,7 +15,7 @@ require('packer').startup(function()
   --   config = function() require'lspsaga'.init_lsp_saga() end
   -- }
   use 'onsails/lspkind-nvim'
-  -- use 'kosayoda/nvim-lightbulb'
+  use 'kosayoda/nvim-lightbulb'
   use {
     'folke/trouble.nvim',
     requires = 'kyazdani42/nvim-web-devicons',
@@ -33,9 +33,9 @@ require('packer').startup(function()
   use 'hrsh7th/cmp-nvim-lua'
   use 'hrsh7th/nvim-cmp'
 
-  -- use 'ray-x/cmp-treesitter'
-  use 'hrsh7th/cmp-vsnip'
-  use 'hrsh7th/vim-vsnip'
+  use 'ray-x/cmp-treesitter'
+  -- use 'hrsh7th/cmp-vsnip'
+  -- use 'hrsh7th/vim-vsnip'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip'
   use 'rafamadriz/friendly-snippets'

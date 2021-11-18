@@ -103,9 +103,10 @@ lsp_installer.on_server_ready(function(server)
     capabilities = capabilities,
   }
 
-  -- if server.name == 'elixirls' then
-  --   options.cmd = { "/Users/gonglexin/projects/elixir-ls/release/language_server.sh" };
-  -- end
+  -- set customer elixir server
+  if server.name == 'elixirls' then
+    options.cmd = { "/Users/gonglexin/projects/elixir-ls/release/language_server.sh" };
+  end
 
   server:setup(options)
   vim.cmd [[ do User LspAttachBuffers ]]
