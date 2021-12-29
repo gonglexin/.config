@@ -9,3 +9,5 @@ fish/functions/
 nvim/plugin/
 nvim/init.vim.bak
 tags
+github-copilot/
+exercism/
