@@ -50,3 +50,7 @@ vim.o.completeopt = 'menu,menuone,noselect'
 
 -- material theme
 vim.cmd[[colorscheme material]]
+
+-- Copilot
+vim.g.copilot_no_tab_map = true
+-- vim.g.copilot_enabled = false

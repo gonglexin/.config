@@ -8,6 +8,10 @@ require('packer').startup(function()
     run = ':TSUpdate'
   }
   use 'nvim-treesitter/nvim-treesitter-textobjects'
+  use {
+    'SmiteshP/nvim-gps',
+    config = function () require("nvim-gps").setup{} end
+  }
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
   -- use {
@@ -22,7 +26,6 @@ require('packer').startup(function()
     config = function() require'trouble'.setup {} end
   }
   use { 'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu' }
-  -- use 'nvim-lua/lsp-status.nvim' -- TODO: config it with feline
 
   -- completion
   use 'github/copilot.vim'
@@ -65,7 +68,7 @@ require('packer').startup(function()
     config = function() require('todo-comments').setup {} end
   }
   use {
-    'norcalli/nvim-colorizer.lua',
+    'crivotz/nvim-colorizer.lua',
     config = function() require'colorizer'.setup {} end
   }
 
@@ -99,13 +102,13 @@ require('packer').startup(function()
   }
   use {
     'famiu/feline.nvim',
-    config = function() require'feline'.setup {} end
+    -- config = function() require'feline'.setup {} end
   }
-  use {
-    'akinsho/bufferline.nvim',
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = function() require'bufferline'.setup {} end
-  }
+  -- use {
+  --   'akinsho/bufferline.nvim',
+  --   requires = 'kyazdani42/nvim-web-devicons',
+  --   config = function() require'bufferline'.setup {} end
+  -- }
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()

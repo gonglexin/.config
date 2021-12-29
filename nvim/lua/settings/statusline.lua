@@ -32,6 +32,7 @@ local vi_mode_colors = {
 
 local lsp = require('feline.providers.lsp')
 local vi_mode_utils = require('feline.providers.vi_mode')
+local gps = require("nvim-gps")
 
 local lsp_get_diag = function(str)
   local count = vim.lsp,diagnostic.get_count(0, str)
@@ -185,35 +186,46 @@ local components = {
 
 table.insert(components.active, {})
 table.insert(components.active, {})
+table.insert(components.active, {})
 table.insert(components.inactive, {})
 table.insert(components.inactive, {})
 
--- Right section
+-- left
 table.insert(components.active[1], comps.vi_mode.left)
-table.insert(components.active[1], comps.file.info)
+-- table.insert(components.active[1], comps.file.info)
 table.insert(components.active[1], comps.git.branch)
 table.insert(components.active[1], comps.git.add)
 table.insert(components.active[1], comps.git.change)
 table.insert(components.active[1], comps.git.remove)
 table.insert(components.inactive[1], comps.file.info)
 
--- Left Section
-table.insert(components.active[2], comps.diagnos.err)
-table.insert(components.active[2], comps.diagnos.warn)
-table.insert(components.active[2], comps.diagnos.hint)
-table.insert(components.active[2], comps.diagnos.info)
-table.insert(components.active[2], comps.lsp.name)
-table.insert(components.active[2], comps.file.os)
-table.insert(components.active[2], comps.file.line_percentage)
-table.insert(components.active[2], comps.file.position)
+-- middle
+table.insert(components.active[2], {
+  provider = function()
+    return gps.get_location()
+  end,
+  enabled = function()
+    return gps.is_available()
+  end
+})
+
+-- right
+table.insert(components.active[3], comps.diagnos.err)
+table.insert(components.active[3], comps.diagnos.warn)
+table.insert(components.active[3], comps.diagnos.hint)
+table.insert(components.active[3], comps.diagnos.info)
+table.insert(components.active[3], comps.lsp.name)
+table.insert(components.active[3], comps.file.os)
+table.insert(components.active[3], comps.file.line_percentage)
+table.insert(components.active[3], comps.file.position)
 
 require('feline').setup {
-  colors = {
-    bg = colors.bg,
-    fg = colors.fg
-  },
+  -- colors = {
+  --   bg = colors.bg,
+  --   fg = colors.fg
+  -- },
   components = components,
-  vi_mode_colors = vi_mode_colors,
+  -- vi_mode_colors = vi_mode_colors,
   force_inactive = {
     filetypes = {
       'NvimTree',

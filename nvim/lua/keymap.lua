@@ -33,6 +33,9 @@ map('n', '<leader><leader>', "<cmd>lua require'telescope'.extensions.frecency.fr
 map('n', '<leader>pp', "<cmd>lua require'telescope'.extensions.project.project{}<CR>", opts)
 map('n', '<leader>pf', "<cmd>lua require'settings.explorer'.project_files()<CR>", opts)
 
+-- Copilot
+map('i', '<c-e>', 'copilot#Accept()', {noremap = true, silent = true, expr = true})
+
 -- FTerm
 map('n', '<c-i>', '<cmd>lua require("FTerm").toggle()<CR>', opts)
 map('t', '<c-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', opts)
