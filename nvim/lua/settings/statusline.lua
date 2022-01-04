@@ -34,11 +34,6 @@ local lsp = require('feline.providers.lsp')
 local vi_mode_utils = require('feline.providers.vi_mode')
 local gps = require("nvim-gps")
 
-local lsp_get_diag = function(str)
-  local count = vim.lsp,diagnostic.get_count(0, str)
-  return (count > 0) and ' '..count..' ' or ''
-end
-
 -- My components
 local comps = {
   vi_mode = {
@@ -225,7 +220,7 @@ require('feline').setup {
   --   fg = colors.fg
   -- },
   components = components,
-  -- vi_mode_colors = vi_mode_colors,
+  vi_mode_colors = vi_mode_colors,
   force_inactive = {
     filetypes = {
       'NvimTree',
