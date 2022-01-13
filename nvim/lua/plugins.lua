@@ -14,18 +14,7 @@ require('packer').startup(function()
   }
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
-  -- use {
-  --   'glepnir/lspsaga.nvim',
-  --   config = function() require'lspsaga'.init_lsp_saga() end
-  -- }
   use 'onsails/lspkind-nvim'
-  use 'kosayoda/nvim-lightbulb'
-  use {
-    'folke/trouble.nvim',
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = function() require'trouble'.setup {} end
-  }
-  use { 'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu' }
 
   -- completion
   use 'github/copilot.vim'
@@ -104,11 +93,6 @@ require('packer').startup(function()
     'famiu/feline.nvim',
     -- config = function() require'feline'.setup {} end
   }
-  -- use {
-  --   'akinsho/bufferline.nvim',
-  --   requires = 'kyazdani42/nvim-web-devicons',
-  --   config = function() require'bufferline'.setup {} end
-  -- }
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()

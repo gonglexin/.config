@@ -1,5 +1,3 @@
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-
 --Incremental live completion (note: this is now a default on master)
 vim.o.inccommand = 'nosplit'
 

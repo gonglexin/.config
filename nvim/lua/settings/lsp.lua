@@ -86,6 +86,9 @@ local on_attach = function(_, bufnr)
   buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
   buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
   buf_set_keymap('n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
+
+  -- hide inline diagnostic
+  vim.diagnostic.config({virtual_text = false})
 end
 
 -- nvim-cmp supports additional completion capabilities
