@@ -50,7 +50,6 @@ require('packer').startup(function()
     config = function() require('Comment').setup() end
   }
   use 'tpope/vim-sleuth'
-  -- use 'ludovicchabant/vim-gutentags' -- Automatic tags management
   use {
     'folke/todo-comments.nvim',
     requires = 'nvim-lua/plenary.nvim',
