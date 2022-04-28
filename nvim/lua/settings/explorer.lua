@@ -1,9 +1,14 @@
 local actions = require('telescope.actions')
+local action_layout = require("telescope.actions.layout")
 local opts = {
   defaults = {
     mappings = {
+      n = {
+        ["<M-p>"] = action_layout.toggle_preview
+      },
       i = {
-	["<esc>"] = actions.close,
+        ["<M-p>"] = action_layout.toggle_preview,
+        ["<esc>"] = actions.close
       },
     },
   },
