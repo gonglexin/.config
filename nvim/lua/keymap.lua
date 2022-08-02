@@ -33,6 +33,13 @@ map('n', '<leader><leader>', "<cmd>lua require'telescope'.extensions.frecency.fr
 map('n', '<leader>pp', "<cmd>lua require'telescope'.extensions.project.project{}<CR>", opts)
 map('n', '<leader>pf', "<cmd>lua require'settings.explorer'.project_files()<CR>", opts)
 
+-- Test
+map('n', '<leader>tt', [[<cmd>TestNearest<CR>]], opts)
+map('n', '<leader>tf', [[<cmd>TestFile<CR>]], opts)
+map('n', '<leader>ts', [[<cmd>TestSuite<CR>]], opts)
+map('n', '<leader>tl', [[<cmd>TestLast<CR>]], opts)
+map('n', '<leader>tv', [[<cmd>TestVisit<CR>]], opts)
+
 -- FTerm
 map('n', '<c-i>', '<cmd>lua require("FTerm").toggle()<CR>', opts)
 map('t', '<c-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', opts)

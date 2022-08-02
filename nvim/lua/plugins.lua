@@ -45,6 +45,7 @@ require('packer').startup(function()
   }
   use 'ggandor/lightspeed.nvim'
   use 'tpope/vim-surround'
+  use 'vim-test/vim-test'
   use 'editorconfig/editorconfig-vim'
   -- use 'tpope/vim-commentary'
   use {
