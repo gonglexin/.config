@@ -17,6 +17,8 @@ source ~/.asdf/asdf.fish
 set -gx ERL_AFLAGS '-kernel shell_history enabled'
 set PATH /Users/gonglexin/.asdf/installs/elixir/main/.mix/escripts/ $PATH
 
+# rust
+set PATH $HOME/.cargo/bin $PATH
 
 # neovide
 set PATH /Users/gonglexin/projects/neovide/target/release/ $PATH
