@@ -59,6 +59,17 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white]]
+
+local border = 'rounded'
+
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or border
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
+
 -- LSP settings
 local on_attach = function(_, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -84,7 +95,7 @@ local on_attach = function(_, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format{ async = true }<CR>', opts)
   buf_set_keymap('n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
 
   -- hide inline diagnostic
@@ -124,14 +135,14 @@ end
 vim.o.updatetime = 250
 vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(0, {scope="cursor"})]]
 
--- local function preview_location_callback(_, result)
---   if result == nil or vim.tbl_isempty(result) then
---     return nil
---   end
---   vim.lsp.util.preview_location(result[1])
--- end
---
--- function PeekDefinition()
---   local params = vim.lsp.util.make_position_params()
---   return vim.lsp.buf_request(0, 'textDocument/definition', params, preview_location_callback)
--- end
+local function preview_location_callback(_, result)
+  if result == nil or vim.tbl_isempty(result) then
+    return nil
+  end
+  vim.lsp.util.preview_location(result[1])
+end
+
+function PeekDefinition()
+  local params = vim.lsp.util.make_position_params()
+  return vim.lsp.buf_request(0, 'textDocument/definition', params, preview_location_callback)
+end

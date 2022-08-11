@@ -56,6 +56,7 @@ cmp.setup {
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'cmp_tabnine' },
     -- { name = 'vsnip' },
     -- { name = 'nvim_lua' },
     { name = 'treesitter' },
@@ -71,6 +72,7 @@ cmp.setup {
       menu = {
         buffer = "[buf]",
         luasnip = "[snip]",
+        cmp_tabnine = "[TN]",
         treesitter = "[Treesitter]",
         -- vsnip = "[snip]",
         nvim_lsp = "[LSP]",
