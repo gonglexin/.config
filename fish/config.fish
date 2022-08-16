@@ -7,11 +7,9 @@ set -gx EDITOR 'nvim'
 alias e $ALTERNATE_EDITOR
 # alias e $EDITOR
 
-# chruby
-chruby 2.7.2
+# homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# asdf
-source ~/.asdf/asdf.fish
 
 # elixir
 set -gx ERL_AFLAGS '-kernel shell_history enabled'
@@ -19,6 +17,3 @@ set PATH /Users/gonglexin/.asdf/installs/elixir/main/.mix/escripts/ $PATH
 
 # rust
 set PATH $HOME/.cargo/bin $PATH
-
-# neovide
-set PATH /Users/gonglexin/projects/neovide/target/release/ $PATH
