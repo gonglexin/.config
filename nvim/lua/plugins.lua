@@ -42,7 +42,10 @@ require('packer').startup(function()
     'windwp/nvim-autopairs',
     config = function() require'nvim-autopairs'.setup {} end
   }
-  use 'ggandor/lightspeed.nvim'
+  use {
+    'ggandor/leap.nvim',
+    config = function() require('leap').set_default_keymaps() end
+  }
   use 'tpope/vim-surround'
   use 'vim-test/vim-test'
   use 'editorconfig/editorconfig-vim'
