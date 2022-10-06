@@ -60,7 +60,6 @@ cmp.setup {
     -- { name = 'vsnip' },
     -- { name = 'nvim_lua' },
     { name = 'treesitter' },
-    { name = 'copilot' },
   }, {
     { name = 'path' },
     { name = 'buffer', keyword_length = 3 },
@@ -76,7 +75,6 @@ cmp.setup {
         treesitter = "[Treesitter]",
         -- vsnip = "[snip]",
         nvim_lsp = "[LSP]",
-        copilot = "[Copilot]",
         -- nvim_lua = "[Lua]",
       }
     }
