@@ -59,17 +59,6 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
-vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white]]
-
-local border = 'rounded'
-
-local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-  opts = opts or {}
-  opts.border = opts.border or border
-  return orig_util_open_floating_preview(contents, syntax, opts, ...)
-end
-
 -- LSP settings
 local on_attach = function(_, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -102,9 +91,7 @@ local on_attach = function(_, bufnr)
   vim.diagnostic.config({virtual_text = false})
 end
 
--- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local lsp_installer = require("nvim-lsp-installer")
