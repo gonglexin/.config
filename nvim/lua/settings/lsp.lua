@@ -61,7 +61,8 @@ require('nvim-treesitter.configs').setup {
 
 
 -- Add border
-local _border = "single"
+local _border = "rounded"
+
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
   vim.lsp.handlers.hover, {
     border = _border
