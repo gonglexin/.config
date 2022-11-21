@@ -95,22 +95,24 @@ end
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-local lsp_installer = require("nvim-lsp-installer")
+require('mason').setup()
+require('mason-lspconfig').setup()
 
-lsp_installer.on_server_ready(function(server)
-  local options = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
+require('mason-lspconfig').setup_handlers {
+  function(server_name)
+    local options = {
+      on_attach = on_attach,
+      capabilities = capabilities,
+    }
+    require('lspconfig')[server_name].setup(options)
+  end,
 
-  -- set customer elixir server
-  -- if server.name == 'elixirls' then
-  --   options.cmd = { "/Users/gonglexin/projects/elixir-ls/release/language_server.sh" };
-  -- end
-
-  server:setup(options)
-  vim.cmd [[ do User LspAttachBuffers ]]
-end)
+  -- ['elixirls'] = function ()
+  --   require'lspconfig'.elixirls.setup{
+  --     cmd = { '/Users/gonglexin/projects/elixir-ls/release/language_server.sh' };
+  --   }
+  -- end,
+}
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do

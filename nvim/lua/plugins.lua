@@ -12,8 +12,9 @@ require('packer').startup(function()
     'SmiteshP/nvim-gps',
     config = function () require("nvim-gps").setup{} end
   }
+  use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
-  use 'williamboman/nvim-lsp-installer'
   use 'onsails/lspkind-nvim'
 
   -- completion
