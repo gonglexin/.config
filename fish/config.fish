@@ -10,6 +10,8 @@ alias e $ALTERNATE_EDITOR
 # homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# ruby
+set -gx RUBY_YJIT_ENABLE true
 
 # elixir
 set -gx ERL_AFLAGS '-kernel shell_history enabled'
