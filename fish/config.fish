@@ -10,6 +10,9 @@ alias e $ALTERNATE_EDITOR
 # homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# asdf
+. /opt/homebrew/opt/asdf/libexec/asdf.fish
+
 # ruby
 set -gx RUBY_YJIT_ENABLE true
 
