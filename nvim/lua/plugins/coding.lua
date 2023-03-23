@@ -5,6 +5,8 @@ return {
       ensure_installed = {
         "elixir-ls",
         "lua-language-server",
+        -- ruby
+        "solargraph",
 
         -- html & js & css
         "emmet-ls",
