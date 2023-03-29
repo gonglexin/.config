@@ -20,24 +20,12 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "bash",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
         "elixir",
         "heex",
-        "html",
-        "javascript",
-        "json",
-        "lua",
-        "luap",
-        "markdown",
-        "markdown_inline",
         "ruby",
-        "typescript",
-        "query",
-        "regex",
-        "typescript",
-      },
-    },
+      })
+    end,
   },
 }
