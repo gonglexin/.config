@@ -9,6 +9,8 @@ return {
         "solargraph",
 
         -- html & js & css
+        "html-lsp",
+        "css-lsp",
         "emmet-ls",
         "tailwindcss-language-server",
         "typescript-language-server",
