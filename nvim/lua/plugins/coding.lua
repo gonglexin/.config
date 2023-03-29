@@ -28,4 +28,29 @@ return {
       })
     end,
   },
+
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        emmet_ls = {
+          filetypes = {
+            -- custom
+            "elixir",
+            "heex",
+
+            -- default
+            "html",
+            "typescriptreact",
+            "javascriptreact",
+            "css",
+            "sass",
+            "scss",
+            "less",
+            "eruby",
+          },
+        },
+      },
+    },
+  },
 }
