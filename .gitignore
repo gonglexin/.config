@@ -1,10 +1,12 @@
 .DS_Store
 clash
+emacs
 exercism
 fish/conf.d/
 fish/completions/
 fish/fish_variables
 fish/functions/
+gh/
 github-copilot/
 htop
 kitty

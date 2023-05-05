@@ -3,9 +3,9 @@ if status is-interactive
 end
 
 set -gx ALTERNATE_EDITOR 'emacsclient -t'
-set -gx EDITOR 'nvim'
+set -gx EDITOR nvim
 alias e $ALTERNATE_EDITOR
-# alias e $EDITOR
+alias v $EDITOR
 
 # homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
