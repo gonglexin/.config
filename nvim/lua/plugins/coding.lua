@@ -51,13 +51,24 @@ return {
           },
         },
       },
+      -- setup = {
+      --   elixirls = function(_, opts)
+      --     require("lspconfig").elixirls.setup({
+      --       cmd = { "/Users/gonglexin/projects/lexical/_build/prod/rel/lexical/start_lexical.sh" },
+      --     })
+      --     return true
+      --   end,
+      -- },
     },
   },
 
   { import = "lazyvim.plugins.extras.lang.tailwind" },
 
+  { import = "lazyvim.plugins.extras.test.core" },
+
   { import = "lazyvim.plugins.extras.dap.core" },
   { import = "lazyvim.plugins.extras.dap.nlua" },
 
   { import = "lazyvim.plugins.extras.util.project" },
+  { import = "lazyvim.plugins.extras.util.mini-hipatterns" },
 }
