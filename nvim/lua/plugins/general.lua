@@ -1,7 +1,9 @@
--- add telescope-fzf-native
 return {
   { "wakatime/vim-wakatime" },
 
+  { import = "lazyvim.plugins.extras.ui.edgy" },
+
+  -- add telescope-fzf-native
   {
     "telescope.nvim",
     dependencies = {

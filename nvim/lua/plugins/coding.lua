@@ -1,21 +1,16 @@
 return {
   {
     "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
         "elixir-ls",
-        "lua-language-server",
-        -- ruby
-        "solargraph",
 
         -- html & js & css
         "html-lsp",
         "css-lsp",
         "emmet-ls",
-        "tailwindcss-language-server",
-        "typescript-language-server",
-      },
-    },
+      })
+    end,
   },
 
   {
@@ -25,7 +20,6 @@ return {
         "diff",
         "elixir",
         "heex",
-        "ruby",
       })
     end,
   },
@@ -54,7 +48,7 @@ return {
       -- setup = {
       --   elixirls = function(_, opts)
       --     require("lspconfig").elixirls.setup({
-      --       cmd = { "/Users/gonglexin/projects/lexical/_build/prod/rel/lexical/start_lexical.sh" },
+      --       cmd = { "/Users/gonglexin/projects/lexical/_build/dev/rel/lexical/start_lexical.sh" },
       --     })
       --     return true
       --   end,
@@ -62,6 +56,7 @@ return {
     },
   },
 
+  { import = "lazyvim.plugins.extras.lang.ruby" },
   { import = "lazyvim.plugins.extras.lang.tailwind" },
 
   { import = "lazyvim.plugins.extras.test.core" },
