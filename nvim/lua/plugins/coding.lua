@@ -56,6 +56,8 @@ return {
     },
   },
 
+  { import = "lazyvim.plugins.extras.coding.yanky" },
+
   { import = "lazyvim.plugins.extras.lang.ruby" },
   { import = "lazyvim.plugins.extras.lang.tailwind" },
 
