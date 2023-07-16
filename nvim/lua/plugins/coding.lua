@@ -3,8 +3,6 @@ return {
     "williamboman/mason.nvim",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
-        "elixir-ls",
-
         -- html & js & css
         "html-lsp",
         "css-lsp",
@@ -18,8 +16,6 @@ return {
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
         "diff",
-        "elixir",
-        "heex",
       })
     end,
   },
@@ -58,6 +54,7 @@ return {
 
   { import = "lazyvim.plugins.extras.coding.yanky" },
 
+  { import = "lazyvim.plugins.extras.lang.elixir" },
   { import = "lazyvim.plugins.extras.lang.ruby" },
   { import = "lazyvim.plugins.extras.lang.tailwind" },
 
