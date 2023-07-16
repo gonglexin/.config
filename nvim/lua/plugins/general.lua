@@ -2,7 +2,6 @@ return {
   { "wakatime/vim-wakatime" },
 
   { import = "lazyvim.plugins.extras.ui.edgy" },
-  { import = "lazyvim.plugins.extras.editor.flash" },
   { import = "lazyvim.plugins.extras.editor.mini-files" },
 
   -- add telescope-fzf-native
