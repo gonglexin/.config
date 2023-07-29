@@ -57,6 +57,7 @@ return {
   { import = "lazyvim.plugins.extras.lang.elixir" },
   { import = "lazyvim.plugins.extras.lang.ruby" },
   { import = "lazyvim.plugins.extras.lang.tailwind" },
+  { import = "lazyvim.plugins.extras.lang.yaml" },
 
   { import = "lazyvim.plugins.extras.test.core" },
 
