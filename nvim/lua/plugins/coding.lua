@@ -118,6 +118,9 @@ return {
   { import = "lazyvim.plugins.extras.lang.tailwind" },
   { import = "lazyvim.plugins.extras.lang.yaml" },
 
+  { import = "lazyvim.plugins.extras.formatting.conform" },
+  { import = "lazyvim.plugins.extras.linting.nvim-lint" },
+
   { import = "lazyvim.plugins.extras.test.core" },
 
   { import = "lazyvim.plugins.extras.dap.core" },
