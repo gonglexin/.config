@@ -81,6 +81,7 @@ return {
   { import = "lazyvim.plugins.extras.lang.ruby" },
   { import = "lazyvim.plugins.extras.lang.tailwind" },
   { import = "lazyvim.plugins.extras.lang.yaml" },
+  { import = "lazyvim.plugins.extras.lang.docker" },
 
   { import = "lazyvim.plugins.extras.formatting.conform" },
   { import = "lazyvim.plugins.extras.linting.nvim-lint" },
