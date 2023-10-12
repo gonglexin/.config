@@ -73,24 +73,4 @@ return {
       },
     },
   },
-
-  { import = "lazyvim.plugins.extras.coding.yanky" },
-  { import = "lazyvim.plugins.extras.coding.codeium" },
-
-  -- { import = "lazyvim.plugins.extras.lang.elixir" },
-  { import = "lazyvim.plugins.extras.lang.ruby" },
-  { import = "lazyvim.plugins.extras.lang.tailwind" },
-  { import = "lazyvim.plugins.extras.lang.yaml" },
-  { import = "lazyvim.plugins.extras.lang.docker" },
-
-  { import = "lazyvim.plugins.extras.formatting.conform" },
-  { import = "lazyvim.plugins.extras.linting.nvim-lint" },
-
-  { import = "lazyvim.plugins.extras.test.core" },
-
-  { import = "lazyvim.plugins.extras.dap.core" },
-  { import = "lazyvim.plugins.extras.dap.nlua" },
-
-  { import = "lazyvim.plugins.extras.util.project" },
-  { import = "lazyvim.plugins.extras.util.mini-hipatterns" },
 }

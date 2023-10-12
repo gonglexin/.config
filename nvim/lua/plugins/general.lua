@@ -1,8 +1,6 @@
 return {
   { "wakatime/vim-wakatime" },
 
-  { import = "lazyvim.plugins.extras.editor.mini-files" },
-
   -- Use <tab> for completion and snippets (supertab)
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {
