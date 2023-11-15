@@ -7,10 +7,6 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
--- wezterm.on("update-right-status", function(window, pane)
---   window:set_right_status(window:active_workspace())
--- end)
-
 -- local function scheme_for_appearance(appearance)
 --   if appearance:find("Dark") then
 --     return "Catppuccin Mocha"
@@ -19,11 +15,11 @@ end
 --   end
 -- end
 
--- color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
+-- config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
 config.color_scheme = "Tokyo Night"
 config.font = wezterm.font_with_fallback({
   { family = "Iosevka Nerd Font", scale = 1.4, weight = "Bold" },
-  { family = "FiraCode Nerd Font Mono", scale = 1.4 },
+  { family = "FiraCode Nerd Font Mono", scale = 1.2 },
 })
 config.window_background_opacity = 0.9
 config.window_decorations = "RESIZE"
@@ -53,10 +49,18 @@ config.keys = {
   { key = "j", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
   { key = "k", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
   { key = "l", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
+  { key = "h", mods = "SUPER", action = act.ActivatePaneDirection("Left") },
+  { key = "j", mods = "SUPER", action = act.ActivatePaneDirection("Down") },
+  { key = "k", mods = "SUPER", action = act.ActivatePaneDirection("Up") },
+  { key = "l", mods = "SUPER", action = act.ActivatePaneDirection("Right") },
   { key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
   { key = "o", mods = "LEADER", action = act.RotatePanes("Clockwise") },
   { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
   { key = "r", mods = "LEADER", action = act.ActivateKeyTable({ name = "resize_pane", one_shot = false }) },
+  { key = "LeftArrow", mods = "SUPER", action = act.AdjustPaneSize({ "Left", 1 }) },
+  { key = "DownArrow", mods = "SUPER", action = act.AdjustPaneSize({ "Down", 1 }) },
+  { key = "UpArrow", mods = "SUPER", action = act.AdjustPaneSize({ "Up", 1 }) },
+  { key = "RightArrow", mods = "SUPER", action = act.AdjustPaneSize({ "Right", 1 }) },
 
   -- Tab keybindings
   { key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
@@ -127,6 +131,15 @@ config.key_tables = {
   },
 }
 
+-- tab bar
+config.use_fancy_tab_bar = false
+
+-- Set font when using fancy tab bar
+config.window_frame = {
+  font = wezterm.font({ family = "FiraCode", weight = "Bold" }),
+  font_size = 16.0,
+}
+
 wezterm.on("update-status", function(window, pane)
   -- Workspace name
   local stat = window:active_workspace()
@@ -161,31 +174,21 @@ wezterm.on("update-status", function(window, pane)
   window:set_left_status(wezterm.format({
     { Foreground = { Color = stat_color } },
     { Text = "  " },
-    { Text = wezterm.nerdfonts.md_alien_outline .. "   " .. stat },
-    { Text = "    " },
+    { Text = wezterm.nerdfonts.md_alien_outline .. " " .. stat },
+    { Text = " " },
   }))
 
   -- Right status
   window:set_right_status(wezterm.format({
-    { Text = wezterm.nerdfonts.md_folder .. "  " .. cwd },
+    { Text = wezterm.nerdfonts.md_folder .. " " .. cwd },
     { Text = " | " },
     { Foreground = { Color = "#e0af68" } },
-    { Text = wezterm.nerdfonts.fa_code .. "  " .. cmd },
+    { Text = wezterm.nerdfonts.fa_code .. " " .. cmd },
     "ResetAttributes",
     { Text = " | " },
-    { Text = wezterm.nerdfonts.md_clock .. "  " .. time },
-    { Text = "  " },
+    { Text = wezterm.nerdfonts.md_clock .. " " .. time },
+    { Text = " " },
   }))
 end)
-
---[[ Appearance setting for when I need to take pretty screenshots
-config.enable_tab_bar = false
-config.window_padding = {
-  left = "0.5cell",
-  right = "0.5cell",
-  top = "0.5cell",
-  bottom = "0cell",
-}
---]]
 
 return config
