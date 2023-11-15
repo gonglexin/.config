@@ -18,7 +18,7 @@ end
 -- config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
 config.color_scheme = "Tokyo Night"
 config.font = wezterm.font_with_fallback({
-  { family = "Iosevka Nerd Font", scale = 1.4, weight = "Bold" },
+  { family = "Iosevka Nerd Font", scale = 1.2, weight = "Bold" },
   { family = "FiraCode Nerd Font Mono", scale = 1.2 },
 })
 config.window_background_opacity = 0.9
@@ -61,6 +61,7 @@ config.keys = {
   { key = "DownArrow", mods = "SUPER", action = act.AdjustPaneSize({ "Down", 1 }) },
   { key = "UpArrow", mods = "SUPER", action = act.AdjustPaneSize({ "Up", 1 }) },
   { key = "RightArrow", mods = "SUPER", action = act.AdjustPaneSize({ "Right", 1 }) },
+  { key = "8", mods = "CTRL", action = act.PaneSelect },
 
   -- Tab keybindings
   { key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
