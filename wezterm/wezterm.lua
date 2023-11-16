@@ -15,13 +15,22 @@ end
 --   end
 -- end
 
+wezterm.on("toggle-opacity", function(window, pane)
+  local overrides = window:get_config_overrides() or {}
+  if not overrides.window_background_opacity then
+    overrides.window_background_opacity = 0.8
+  else
+    overrides.window_background_opacity = nil
+  end
+  window:set_config_overrides(overrides)
+end)
+
 -- config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
 config.color_scheme = "Tokyo Night"
 config.font = wezterm.font_with_fallback({
   { family = "Iosevka Nerd Font", scale = 1.2, weight = "Bold" },
   { family = "FiraCode Nerd Font Mono", scale = 1.2 },
 })
-config.window_background_opacity = 0.9
 config.window_decorations = "RESIZE"
 config.scrollback_lines = 10000
 config.default_workspace = "main"
@@ -41,6 +50,7 @@ config.keys = {
   { key = "b", mods = "LEADER|CTRL", action = act.SendKey({ key = "b", mods = "CTRL" }) },
 
   { key = "p", mods = "CMD|SHIFT", action = act.ActivateCommandPalette },
+  { key = "u", mods = "LEADER", action = act.EmitEvent("toggle-opacity") },
 
   -- Pane keybindings
   { key = '"', mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
