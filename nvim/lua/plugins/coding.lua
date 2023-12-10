@@ -1,4 +1,8 @@
 return {
+  -- {
+  --   "f-person/git-blame.nvim",
+  -- },
+
   {
     "williamboman/mason.nvim",
     opts = function(_, opts)
@@ -18,6 +22,16 @@ return {
         "diff",
       })
     end,
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    opts = {
+      window = {
+        completion = require("cmp").config.window.bordered(),
+        documentation = require("cmp").config.window.bordered(),
+      },
+    },
   },
 
   {
