@@ -7,13 +7,13 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
--- local function scheme_for_appearance(appearance)
---   if appearance:find("Dark") then
---     return "Catppuccin Mocha"
---   else
---     return "Catppuccin Latte"
---   end
--- end
+local function scheme_for_appearance(appearance)
+  if appearance:find("Dark") then
+    return "Catppuccin Mocha"
+  else
+    return "Catppuccin Latte"
+  end
+end
 
 wezterm.on("toggle-opacity", function(window, pane)
   local overrides = window:get_config_overrides() or {}
@@ -25,11 +25,10 @@ wezterm.on("toggle-opacity", function(window, pane)
   window:set_config_overrides(overrides)
 end)
 
--- config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
-config.color_scheme = "Tokyo Night"
+config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
 config.font = wezterm.font_with_fallback({
+  { family = "FiraCode Nerd Font Mono", scale = 1.4 },
   { family = "Iosevka Nerd Font", scale = 1.6, weight = "Bold" },
-  { family = "FiraCode Nerd Font Mono", scale = 1.2 },
 })
 config.window_decorations = "RESIZE"
 config.scrollback_lines = 10000
