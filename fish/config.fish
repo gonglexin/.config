@@ -17,7 +17,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 set -gx RUBY_YJIT_ENABLE true
 
 # elixir
-set -gx ERL_AFLAGS '-kernel shell_history enabled'
+set -gx ERL_AFLAGS '-kernel shell_history enabled -proto_dist inet6_tcp'
 set PATH /Users/gonglexin/.asdf/installs/elixir/main/.mix/escripts/ $PATH
 
 # rust
