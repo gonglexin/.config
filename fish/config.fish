@@ -17,8 +17,11 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 set -gx RUBY_YJIT_ENABLE true
 
 # elixir
-set -gx ERL_AFLAGS '-kernel shell_history enabled -proto_dist inet6_tcp'
+set -gx ERL_AFLAGS '-kernel shell_history enabled'
 set PATH /Users/gonglexin/.asdf/installs/elixir/main/.mix/escripts/ $PATH
 
 # rust
 set PATH $HOME/.cargo/bin $PATH
+
+# proxy
+export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
