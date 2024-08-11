@@ -38,15 +38,6 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        tailwindcss = {
-          init_options = {
-            userLanguages = {
-              eelixir = "html-eex",
-              eruby = "erb",
-              heex = "phoenix-heex",
-            },
-          },
-        },
         emmet_language_server = {
           filetypes = {
             -- custom
