@@ -3,6 +3,7 @@ theme = dark:catppuccin-frappe,light:catppuccin-latte
 
 font-family = CaskaydiaCove Nerd Font
 font-size = 18
+background-opacity=0.8
 
 keybind = ctrl+b>shift+5=new_split:right
 keybind = ctrl+b>shift+'=new_split:down
