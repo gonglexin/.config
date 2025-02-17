@@ -4,8 +4,8 @@ return {
     ---@type snacks.Config
     opts = {
       image = {
-        -- enabled = true,
         doc = {
+          enabled = true,
           -- Personally I set this to false, I don't want to render all the
           -- images in the file, only when I hover over them
           -- render the image inline in the buffer
