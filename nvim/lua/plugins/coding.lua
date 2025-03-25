@@ -1,7 +1,136 @@
 return {
-  -- {
-  --   "f-person/git-blame.nvim",
-  -- },
+  {
+    "milanglacier/minuet-ai.nvim",
+    config = function()
+      require("minuet").setup({
+        provider = "openai_compatible",
+        provider_options = {
+          openai_compatible = {
+            -- api_key = "DEEPSEEK_API_KEY",
+            -- end_point = 'https://api.deepseek.com/v1/chat/completions',
+            -- name = "deepseek",
+            api_key = "MOONSHOT_API_KEY",
+            end_point = "https://api.moonshot.cn/v1/chat/completions",
+            name = "moonshot",
+            model = "moonshot-v1-32k",
+            optional = {
+              max_tokens = 256,
+              top_p = 0.9,
+            },
+          },
+        },
+      })
+    end,
+  },
+  {
+    "saghen/blink.cmp",
+    dependencies = {
+      "Kaiser-Yang/blink-cmp-avante",
+      "Kaiser-Yang/blink-cmp-dictionary",
+      "moyiz/blink-emoji.nvim",
+    },
+    opts = {
+      appearance = {
+        kind_icons = {
+          -- LLM Provider icons
+          claude = "󰋦",
+          openai = "󱢆",
+          codestral = "󱎥",
+          gemini = "",
+          Groq = "",
+          Openrouter = "󱂇",
+          Ollama = "󰳆",
+          ["Llama.cpp"] = "󰳆",
+          Deepseek = "",
+        },
+      },
+      keymap = {
+        ["<C-y>"] = {
+          function(cmp)
+            cmp.show({ providers = { "minuet" } })
+          end,
+        },
+      },
+      sources = {
+        default = { "dictionary", "avante", "lsp", "path", "snippets", "buffer", "emoji", "minuet" },
+        per_filetype = {
+          sql = { "snippets", "dadbod", "buffer" },
+        },
+        providers = {
+          dictionary = {
+            module = "blink-cmp-dictionary",
+            name = "Dict",
+            -- Make sure this is at least 2.
+            -- 3 is recommended
+            min_keyword_length = 3,
+            opts = {
+              -- options for blink-cmp-dictionary
+              -- -- Where is your dictionary files
+              -- dictionary_files = nil,
+              -- Where is your dictionary directories, all the .txt files in the directory will be loaded
+              dictionary_directories = { vim.fn.expand("~/.config/nvim/dictionary") },
+            },
+          },
+          dadbod = {
+            name = "Dadbod",
+            module = "vim_dadbod_completion.blink",
+          },
+          minuet = {
+            name = "minuet",
+            module = "minuet.blink",
+            -- score_offset = 100,
+          },
+          avante = {
+            module = "blink-cmp-avante",
+            name = "Avante",
+            opts = {
+              -- options for blink-cmp-avante
+            },
+          },
+          emoji = {
+            module = "blink-emoji",
+            name = "Emoji",
+            score_offset = 15, -- Tune by preference
+            opts = { insert = true }, -- Insert emoji (default) or complete its name
+            should_show_items = function()
+              return vim.tbl_contains(
+                -- Enable emoji completion only for git commits and markdown.
+                -- By default, enabled for all file-types.
+                { "gitcommit", "markdown" },
+                vim.o.filetype
+              )
+            end,
+          },
+        },
+      },
+      completion = {
+        menu = {
+          -- border (single, rounded, etc)
+          border = "rounded",
+
+          -- use mini.icons
+          -- draw = {
+          --   components = {
+          --     kind_icon = {
+          --       ellipsis = false,
+          --       text = function(ctx)
+          --         local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+          --         return kind_icon
+          --       end,
+          --       -- Optionally, you may also use the highlights from mini.icons
+          --       highlight = function(ctx)
+          --         local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+          --         return hl
+          --       end,
+          --     },
+          --   },
+          -- },
+        },
+        documentation = { window = { border = "rounded" } },
+      },
+      signature = { window = { border = "rounded" } },
+    },
+  },
 
   {
     "williamboman/mason.nvim",
@@ -24,37 +153,14 @@ return {
     end,
   },
 
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   opts = {
-  --     window = {
-  --       completion = require("cmp").config.window.bordered(),
-  --       documentation = require("cmp").config.window.bordered(),
-  --     },
-  --   },
-  -- },
-
-  -- {
-  --   "saghen/blink.cmp",
-  --   opts = {
-  --     windows = {
-  --       autocomplete = {
-  --         border = "rounded",
-  --       },
-  --     },
-  --     documentation = {
-  --       border = "rounded",
-  --     },
-  --     signature_help = {
-  --       border = "rounded",
-  --     },
-  --   },
-  -- },
-
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        -- ruby_lsp = {
+        --   mason = false,
+        --   cmd = { vim.fn.expand("~/.asdf/shims/ruby-lsp") },
+        -- },
         emmet_language_server = {
           filetypes = {
             -- custom
@@ -82,39 +188,26 @@ return {
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
-    lazy = false,
-    version = false, -- set this if you want to always pull the latest change
+    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     opts = {
-      provider = "deepseek",
+      -- add any opts here
+      -- provider = "deepseek",
+      provider = "moonshot",
       vendors = {
-        ---@type AvanteProvider
         deepseek = {
-          endpoint = "https://api.deepseek.com/chat/completions",
-          model = "deepseek-coder",
+          __inherited_from = "openai",
           api_key_name = "DEEPSEEK_API_KEY",
-          parse_curl_args = function(opts, code_opts)
-            return {
-              url = opts.endpoint,
-              headers = {
-                ["Accept"] = "application/json",
-                ["Content-Type"] = "application/json",
-                ["Authorization"] = "Bearer " .. os.getenv(opts.api_key_name),
-              },
-              body = {
-                model = opts.model,
-                messages = { -- you can make your own message, but this is very advanced
-                  { role = "system", content = code_opts.system_prompt },
-                  { role = "user", content = require("avante.providers.openai").get_user_message(code_opts) },
-                },
-                temperature = 0,
-                max_tokens = 4096,
-                stream = true, -- this will be set by default.
-              },
-            }
-          end,
-          parse_response_data = function(data_stream, event_state, opts)
-            require("avante.providers").openai.parse_response(data_stream, event_state, opts)
-          end,
+          endpoint = "https://api.deepseek.com",
+          model = "deepseek-coder",
+          -- api_key_name = "SILICONFLOW_API_KEY",
+          -- endpoint = "https://api.siliconflow.cn",
+          -- model = "Pro/deepseek-ai/DeepSeek-V3",
+        },
+        moonshot = {
+          __inherited_from = "openai",
+          api_key_name = "MOONSHOT_API_KEY",
+          endpoint = "https://api.moonshot.cn/v1",
+          model = "moonshot-v1-32k", -- moonshot-v1-32k, moonshot-v1-128k, kimi-latest-8k, kimi-latest-32k, kimi-latest-128k
         },
       },
     },
@@ -127,26 +220,11 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
-      -- "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "echasnovski/mini.pick", -- for file_selector provider mini.pick
+      -- "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+      -- "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+      -- "ibhagwan/fzf-lua", -- for file_selector provider fzf
       "echasnovski/mini.icons",
-      "zbirenbaum/copilot.lua", -- for providers='copilot'
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            -- required for Windows users
-            use_absolute_path = true,
-          },
-        },
-      },
       {
         -- Make sure to set this up properly if you have lazy=true
         "MeanderingProgrammer/render-markdown.nvim",
@@ -156,5 +234,5 @@ return {
         ft = { "markdown", "Avante" },
       },
     },
-  }, -- },
+  },
 }
