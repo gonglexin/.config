@@ -11,6 +11,7 @@ gh/
 github-copilot/
 htop
 kitty
+mise
 nvim/plugin/
 nvim/lazy-lock.json
 pgcli
