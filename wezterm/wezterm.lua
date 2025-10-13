@@ -10,8 +10,12 @@ end
 local function scheme_for_appearance(appearance)
   if appearance:find("Dark") then
     return "Catppuccin Mocha"
+    -- return "cyberdream"
   else
     return "Catppuccin Latte"
+    -- return "Catppuccin Macchiato"
+    -- return "Catppuccin Frappe"
+    -- return "cyberdream-light"
   end
 end
 
@@ -26,9 +30,13 @@ wezterm.on("toggle-opacity", function(window, pane)
 end)
 
 config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
+-- config.colors = require(scheme_for_appearance(wezterm.gui.get_appearance()))
+-- config.colors = require("cyberdream")
+-- config.colors = require("cyberdream-light")
 config.font = wezterm.font_with_fallback({
+  { family = "CaskaydiaCove Nerd Font", scale = 1.6 },
   { family = "FiraCode Nerd Font Mono", scale = 1.4 },
-  { family = "Iosevka Nerd Font", scale = 1.6, weight = "Bold" },
+  { family = "Iosevka Nerd Font Mono", scale = 1.6 },
 })
 config.window_decorations = "RESIZE"
 config.scrollback_lines = 10000
