@@ -204,7 +204,7 @@ wezterm.on("update-status", function(window, pane)
   window:set_left_status(wezterm.format({
     { Foreground = { Color = stat_color } },
     { Text = "  " },
-    { Text = wezterm.nerdfonts.md_alien_outline .. " " .. stat },
+    { Text = wezterm.nerdfonts.dev_elixir .. " " .. stat },
     { Text = " " },
   }))
 

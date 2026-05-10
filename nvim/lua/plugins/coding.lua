@@ -90,8 +90,7 @@ return {
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
         -- elixir
-        "expert",
-
+        -- "expert",
         -- html & js & css
         "html-lsp",
         "css-lsp",
@@ -136,5 +135,4 @@ return {
       },
     },
   },
-
 }

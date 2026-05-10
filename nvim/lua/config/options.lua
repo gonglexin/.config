@@ -6,7 +6,7 @@
 vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH
 
 -- Enable inline completion
-vim.lsp.inline_completion.enable()
+-- vim.lsp.inline_completion.enable()
 
 -- Elixir related
 vim.filetype.add({
@@ -14,11 +14,3 @@ vim.filetype.add({
     ["tmp%..*%.erl"] = "elixir",
   },
 })
-
-vim.lsp.config("expert", {
-  cmd = { "expert" },
-  root_markers = { "mix.exs", ".git" },
-  filetypes = { "elixir", "eelixir", "heex" },
-})
-
-vim.lsp.enable("expert")

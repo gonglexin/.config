@@ -7,6 +7,7 @@ fish/conf.d/
 fish/completions/
 fish/fish_variables
 fish/functions/
+fish/secrets.fish
 gh/
 github-copilot/
 htop
